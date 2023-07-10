@@ -63,8 +63,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="entry:${sommePrixParDate}">
-                                <td th:text="${entry.key}"></td>
+                            <tr  th:each="entry : ${sommePrixActesParDate}">
+                                <td  th:text="${entry.key}"></td>
                                 <td th:text="${entry.value}"></td>
                             </tr>
                             </tbody>

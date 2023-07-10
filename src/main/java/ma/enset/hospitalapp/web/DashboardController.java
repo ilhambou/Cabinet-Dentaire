@@ -1,5 +1,6 @@
 package ma.enset.hospitalapp.web;
 
+import ma.enset.hospitalapp.entities.Act;
 import ma.enset.hospitalapp.entities.Consultation;
 import ma.enset.hospitalapp.entities.Event;
 import ma.enset.hospitalapp.repository.ConsultationRepository;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,24 @@ public class DashboardController {
         double malePercentage = (double) totalMalePatients / totalPatientss * 100;
         double femalePercentage = (double) totalFemalePatients / totalPatientss* 100;
 
+
+        ///
+
+        Map<Date, Double> sommePrixActesParDate = new HashMap<>();
+
+        List<Event> events = eventRepository.findAll();
+
+        for (Event event : events) {
+            Date startDate = event.getStartDate();
+
+            for (Act act : event.getActs()) {
+                Double prix = act.getPrix();
+                Double sommePrix = sommePrixActesParDate.getOrDefault(startDate, 0.0);
+                sommePrix += prix;
+                sommePrixActesParDate.put(startDate, sommePrix);
+            }
+        }
+
         model.addAttribute("totalPatients", totalPatients);
         model.addAttribute("totalEvent", totalEvent);
         model.addAttribute("sommeParPrix", sommeParPrix);
@@ -53,9 +74,16 @@ public class DashboardController {
         model.addAttribute("malePercentage", malePercentage);
         model.addAttribute("femalePercentage", femalePercentage);
 
+
+        model.addAttribute("sommePrixActesParDate", sommePrixActesParDate);
+
         return "dashboard";
     }
 
 
 
-}
+
+    }
+
+
+
