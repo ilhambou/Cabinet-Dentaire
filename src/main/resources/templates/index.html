@@ -96,6 +96,21 @@
                   </ul>
               </li>
 
+
+
+
+              <li class="nav-item dropdown "style="padding-left: 60px;" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                      Situation Financier</a>
+                  <ul class="dropdown-menu">
+                      <li >
+                          <a class="dropdown-item" th:href="@{/admin/formSituation}">Nouvelle SF</a>
+                      </li>
+                      <li><a class="dropdown-item" th:href="@{/admin/index/situation}">Consulter</a></li>
+                  </ul>
+              </li>
+
               <li class="nav-item dropdown "style="padding-left: 80px;" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                       Calendrier</a>
@@ -103,19 +118,6 @@
                       <li>
                           <a class="dropdown-item" th:href="@{/admin/login}">Consulter</a>
                       </li>
-                  </ul>
-              </li>
-
-
-              <li class="nav-item dropdown "style="padding-left: 60px;" th:if="${#authorization.expression('hasRole(''USR'')')}">
-
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                      Situation Financier</a>
-                  <ul class="dropdown-menu">
-                      <li >
-                          <a class="dropdown-item" th:href="@{/user/formSituation}">Nouvelle SF</a>
-                      </li>
-                      <li><a class="dropdown-item" th:href="@{/user/index/situation}">Consulter</a></li>
                   </ul>
               </li>
               <li class="nav-item dropdown "style="padding-left: 80px;" th:if="${#authorization.expression('hasRole(''USR'')')}">

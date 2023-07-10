@@ -12,7 +12,7 @@
     <div class="card">
       <div class="card-header">Liste des SF</div>
       <div class="card-body">
-        <form method="get" th:action="@{/user/index/facture}">
+        <form method="get" th:action="@{/admin/index/facture}">
           <label>Keyword</label>
           <input type="text" name="keyword" th:value="${keyword}">
           <button type="submit" class="btn btn-primary">Chercher</button>
@@ -35,7 +35,7 @@
             <td>
 
               <a  class="btn btn-primary"
-                  th:href="@{/user/facture/{id}(id=${sf.id})}">Voir détails</a>
+                  th:href="@{/admin/facture/{id}(id=${sf.id})}">Voir détails</a>
             </td>
           </tr>
           </tbody>
@@ -43,7 +43,7 @@
         <ul class="nav nav-pills">
           <li th:each="page,status:${pages}">
             <a th:class="${status.index==currentPage?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
-               th:href="@{/user/index4(page=${status.index}, keyword=${keyword})}"
+               th:href="@{/admin/index4(page=${status.index}, keyword=${keyword})}"
                th:text="${status.index}">
             </a>
           </li>

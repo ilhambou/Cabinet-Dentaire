@@ -33,7 +33,7 @@ public class SFController {
         this.factureRepository = factureRepository;
         this.consultationRepository = consultationRepository;
     }
-    @GetMapping("/user/index/situation")
+    @GetMapping("/admin/index/situation")
     public String index(Model model,
                         @RequestParam(name = "page", defaultValue = "0") int page,
                         @RequestParam(name = "size", defaultValue = "5") int size,
@@ -46,12 +46,12 @@ public class SFController {
         return "situations";
     }
 
-    @GetMapping("/user/situation")
+    @GetMapping("/admin/situation")
     @ResponseBody
     public List<SF> listSituations() {
         return sfRepository.findAll();
     }
-    @GetMapping("/user/formSituation")
+    @GetMapping("/admin/formSituation")
     public String formSituation(Model model) {
         SF sf = new SF();
         Consultation consultation = new Consultation(); // Initialisez l'objet consultation
@@ -65,7 +65,7 @@ public class SFController {
         return "formSituation";
     }
 
-    @GetMapping("/user/deleteSituation")
+    @GetMapping("/admin/deleteSituation")
     public String deleteSituation(@RequestParam(name = "id") Long id, String keyword, int page){
         SF situation = sfRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Situation introuvable"));
         Consultation consultation = situation.getConsultation();
@@ -76,10 +76,10 @@ public class SFController {
         // Supprimer la consultation associée
         consultationRepository.delete(consultation);
 
-        return "redirect:/user/index/situation?page=" + page + "&keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+        return "redirect:/admin/index/situation?page=" + page + "&keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8);
     }
 
-    @PostMapping("/user/editSituation/{id}")
+    @PostMapping("/admin/editSituation/{id}")
     public String editSituation(@Valid SF sf, BindingResult bindingResult, @PathVariable Long id) {
         if (bindingResult.hasErrors()) {
             return "editSituation";
@@ -110,10 +110,10 @@ public class SFController {
 
         sfRepository.save(existingSF);
 
-        return "redirect:/user/index/situation";
+        return "redirect:/admin/index/situation";
     }
 
-    @GetMapping("/user/editSituation")
+    @GetMapping("/admin/editSituation")
     public String showEditSituationForm(@RequestParam(name = "id") Long id, Model model){
         SF sf = sfRepository.findById(id).orElseThrow(() -> new NoSuchElementException("patient introuvable"));
         model.addAttribute("sf", sf);
@@ -124,7 +124,7 @@ public class SFController {
 
 
 
-    @PostMapping("/user/saveSituation")
+    @PostMapping("/admin/saveSituation")
     public String saveSituation(@Valid SF sf, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "formSituation";
@@ -151,7 +151,7 @@ public class SFController {
         // Enregistrer à nouveau l'objet SF avec la facture associée
         sfRepository.save(savedSF);
 
-        return "redirect:/user/index/situation";
+        return "redirect:/admin/index/situation";
     }
 
 

@@ -30,7 +30,7 @@ public class FactureController {
         this.sfRepository = sfRepository;
     }
 
-    @GetMapping("/user/index/facture")
+    @GetMapping("/admin/index/facture")
     public String factures(Model model,
                            @RequestParam(name = "page", defaultValue = "0") int page,
                            @RequestParam(name = "size", defaultValue = "5") int size,
@@ -44,7 +44,7 @@ public class FactureController {
         return "factures";
     }
 
-    @GetMapping("/user/facture/{id}")
+    @GetMapping("/admin/facture/{id}")
     public String getFactureDetails(@PathVariable("id") Long id, Model model) {
         // Récupérer la facture correspondant à l'ID
         Facture facture = factureRepository.findById(id)
