@@ -43,11 +43,11 @@
                         <td th:text="${sf.consultation.description}"></td>
                         <td>
                             <a onclick="return confirm('Êtes-vous sûr ?')" class="btn btn-danger"
-                               th:href="@{/admin/deleteSituation(id=${sf.id}, keyword=${keyword}, page=${currentPage})}">
+                               th:href="@{/user/deleteSituation(id=${sf.id}, keyword=${keyword}, page=${currentPage})}">
                                 <i class="bi bi-trash"></i>
                             </a>
                             <a class="btn btn-danger"
-                               th:href="@{/admin/editSituation(id=${sf.id})}">
+                               th:href="@{/user/editSituation(id=${sf.id})}">
                                 <i class="bi bi-pencil"></i>
                             </a>
                         </td>

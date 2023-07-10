@@ -1,121 +1,3 @@
-/**package ma.enset.hospitalapp.web;
-
-import jakarta.validation.Valid;
-import ma.enset.hospitalapp.entities.Act;
-import ma.enset.hospitalapp.entities.Consultation;
-import ma.enset.hospitalapp.entities.Event;
-import ma.enset.hospitalapp.entities.SF;
-import ma.enset.hospitalapp.repository.ConsultationRepository;
-import ma.enset.hospitalapp.repository.FactureRepository;
-import ma.enset.hospitalapp.repository.SFRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-@Controller
-public class SFController {
-   @Autowired
-    private SFRepository sfRepository;
-
-
-    private ConsultationRepository consultationRepository;
-    @Autowired
-    public SFController(ConsultationRepository consultationRepository){
-        this.consultationRepository=consultationRepository;
-    }
-    @GetMapping("/admin/index/situation")
-    public String index(Model model,
-                        @RequestParam(name = "page", defaultValue = "0") int page,
-                        @RequestParam(name = "size", defaultValue = "5") int size,
-                        @RequestParam(name = "keyword", defaultValue = "") String keyword) {
-        Page<SF> sfPage = sfRepository.findByNomContains(keyword, PageRequest.of(page, size));
-        model.addAttribute("listSFs", sfPage.getContent());
-        model.addAttribute("pages", new int[sfPage.getTotalPages()]);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("keyword", keyword);
-        return "situations";
-    }
-
-    @GetMapping("/admin/situation")
-    @ResponseBody
-    public List<SF> listSituations() {
-        return sfRepository.findAll();
-    }
-    @GetMapping("/admin/formSituation")
-    public String formSituation(Model model) {
-        SF sf = new SF();
-        Consultation consultation = new Consultation(); // Initialisez l'objet consultation
-        sf.setConsultation(consultation); // Définissez l'objet consultation dans sf
-
-        model.addAttribute("sf", sf);
-
-        List<Consultation> listConsultations = consultationRepository.findAll();
-        model.addAttribute("listConsultations", listConsultations);
-
-        return "formSituation";
-    }
-
-    @GetMapping("/admin/deleteSituation")
-    public String deleteSituation(@RequestParam(name = "id") Long id, String keyword, int page){
-        SF situation = sfRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Situation introuvable"));
-        Consultation consultation = situation.getConsultation();
-
-        // Supprimer la situation
-        sfRepository.deleteById(id);
-
-        // Supprimer la consultation associée
-        consultationRepository.delete(consultation);
-
-        return "redirect:/admin/index/situation?page=" + page + "&keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8);
-    }
-
-    @PostMapping("/admin/editSituation/{id}")
-    public String editSituation(@Valid SF patient, BindingResult bindingResult, @PathVariable Long id){
-        if (bindingResult.hasErrors()) {
-            return "editSituation";
-        }
-
-        SF p = sfRepository.findById(id).orElseThrow(() -> new NoSuchElementException("patient introuvable"));
-        p.setNom(patient.getNom());
-        p.setConsultation(patient.getConsultation());
-        p.setPaye(patient.getPaye());
-        p.setReste(patient.getReste());
-        p.setTotalapayer(patient.getTotalapayer());
-        sfRepository.save(p);
-
-
-        return "redirect:/admin/index/situation";
-    }
-    @GetMapping("/admin/editSituation")
-    public String showEditSituationForm(@RequestParam(name = "id") Long id, Model model){
-        SF sf = sfRepository.findById(id).orElseThrow(() -> new NoSuchElementException("patient introuvable"));
-        model.addAttribute("sf", sf);
-        model.addAttribute("listConsultations", consultationRepository.findAll()); // Ajoutez cette ligne
-
-        return "editSituation";
-    }
-
-
-
-    @PostMapping("/admin/saveSituation")
-    public String saveSituation(@Valid SF sf, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "formSituation";
-        }
-        sfRepository.save(sf);
-
-        return "redirect:/admin/index/situation";
-    }
-**/
 package ma.enset.hospitalapp.web;
 
 import jakarta.validation.Valid;
@@ -194,7 +76,7 @@ public class SFController {
         // Supprimer la consultation associée
         consultationRepository.delete(consultation);
 
-        return "redirect:/admin/index/situation?page=" + page + "&keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8);
+        return "redirect:/user/index/situation?page=" + page + "&keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8);
     }
 
     @PostMapping("/user/editSituation/{id}")
@@ -228,7 +110,7 @@ public class SFController {
 
         sfRepository.save(existingSF);
 
-        return "redirect:/admin/index/situation";
+        return "redirect:/user/index/situation";
     }
 
     @GetMapping("/user/editSituation")
@@ -269,7 +151,7 @@ public class SFController {
         // Enregistrer à nouveau l'objet SF avec la facture associée
         sfRepository.save(savedSF);
 
-        return "redirect:/admin/index/situation";
+        return "redirect:/user/index/situation";
     }
 
 

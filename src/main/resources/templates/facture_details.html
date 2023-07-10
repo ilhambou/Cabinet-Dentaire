@@ -167,7 +167,7 @@
 
   <div style="text-align: right;">
     Total avant reduction: <span th:text="${facture.sf.getConsultation().getAct().getPrix()} + ' Dh'"></span><br>
-    Pourcentege <span th:text="${facture.sf.getConsultation().getPourcentage()}*100 + ' %'"></span><br>
+    Pourcentege <span th:text="${facture.sf.getConsultation().getPourcentage()*100} + ' %'"></span><br>
     Total après reduction: <span th:text="${facture.sf.totalapayer} + ' Dh'"></span><br>
     Payé: <span th:text="${facture.sf.paye} + ' Dh'"></span><br>
     Reste: <span th:text="${facture.sf.reste} + ' Dh'"></span><br>

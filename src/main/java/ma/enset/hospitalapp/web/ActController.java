@@ -38,7 +38,7 @@ public class ActController {
     @GetMapping("/admin/deleteAct")
     public String deleteAct(@RequestParam(name = "id") Long id, String keyword, int page){
         actRepository.deleteById(id);
-        return "redirect:/user/index2?page="+page+"&keyword="+keyword;
+        return "redirect:/admin/index2?page="+page+"&keyword="+keyword;
     }
     @GetMapping("/admin/formAct")
     public String formAct(Model model ){
@@ -49,7 +49,7 @@ public class ActController {
     public String saveAct(@Valid Act patient, BindingResult bindingResult){
         if (bindingResult.hasErrors()) return "formAct";
        actRepository.save(patient);
-        return "redirect:/user/index2";
+        return "redirect:/admin/index2";
     }
 
      @PostMapping("/admin/editAct/{id}")
@@ -63,7 +63,7 @@ public class ActController {
         p.setLibelle(patient.getLibelle());
         p.setPrix(patient.getPrix());
         actRepository.save(p);
-         return "redirect:/user/index2";
+         return "redirect:/admin/index2";
     }
     @GetMapping("/admin/editAct")
     public String editAct(@RequestParam(name = "id") Long id, Model model){

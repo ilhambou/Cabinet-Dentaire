@@ -106,7 +106,7 @@ public class EventController {
             return "formConsultation" ;
         }
 
-        return "redirect:/user/index3";
+        return "redirect:/admin/index3";
     }
 
     @GetMapping("/api/patients")
