@@ -27,20 +27,6 @@ public class PatientController {
     private PatientRepository patientRepository;
     @Autowired
     private UserDetailsService userDetailsService;
-    /*  @GetMapping("/user/index")
-       public String index(Model model,
-                           @RequestParam(name = "page",defaultValue = "0") int page,
-                           @RequestParam(name = "size",defaultValue = "5") int size,
-                           @RequestParam(name = "keyword",defaultValue = "") String kw
-                           ){
-           Page<Patient> pagePatients = patientRepository.findByNomContains(kw, PageRequest.of(page,size));
-           model.addAttribute("listPatients",pagePatients.getContent());
-           model.addAttribute("pages",new int[pagePatients.getTotalPages()]);
-           model.addAttribute("currentPage",page);
-           model.addAttribute("keyword",kw);
-           //return "test.Site1";
-           return "patients";
-       }*/
 
 
     @GetMapping("/admin/list")
@@ -66,7 +52,7 @@ public class PatientController {
     @GetMapping("/admin/deletePatient")
     public String deletePatient(@RequestParam(name = "id") Long id, String keyword, int page){
         patientRepository.deleteById(id);
-        return "redirect:/user/list?page="+page+"&keyword="+keyword;
+        return "redirect:/admin/list?page="+page+"&keyword="+keyword;
     }
     @GetMapping("/admin/formPatient")
     public String formPatient(Model model ){
@@ -77,7 +63,7 @@ public class PatientController {
     public String savePatient(@Valid Patient patient, BindingResult bindingResult){
         if (bindingResult.hasErrors()) return "formPatient";
         patientRepository.save(patient);
-        return "redirect:/user/list";
+        return "redirect:/admin/list";
     }
 
     @PostMapping("/admin/editPatient/{id}")
@@ -96,7 +82,7 @@ public class PatientController {
         p.setSexe(patient.getSexe());
 
         patientRepository.save(p);
-        return "redirect:/user/list";
+        return "redirect:/admin/list";
     }
     @GetMapping("/admin/editPatient")
     public String editPatient(@RequestParam(name = "id") Long id, Model model){
@@ -109,12 +95,7 @@ public class PatientController {
         return "index";
     }
 
-   /* @GetMapping("/index")
-    public String home(Model model, Authentication authentication) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
-        model.addAttribute("userRoles", userDetails.getAuthorities());
-        return "index";
-    }*/
+
 
 
 
