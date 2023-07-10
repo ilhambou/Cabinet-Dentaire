@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Act Act</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="p-3">
+    <form method="POST" th:action="@{saveAct}">
+      <div class="mb-3 mt-3">
+        <label for="libelle" class="form-label">libelle:</label>
+        <input type="text" class="form-control" id="libelle" placeholder="libelle" name="libelle">
+        <span class="text-danger" th:errors="${act.libelle}" th:value="${act.libelle}"></span>
+      </div>
+      <div class="mb-3">
+        <label for="prix" class="form-label">prix:</label>
+        <input type="number" class="form-control" id="prix" placeholder="prix"
+               step="0.01"
+               name="prix" th:value="${act.prix}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="description" class="form-label">description:</label>
+        <input type="text" class="form-control" id="Description" placeholder="Description"
+               name="description" th:value="${act.description}">
+        <!-- <span class="text-danger" th:errors="${patient.score}" th:value="${patient.malade}"></span>-->
+      </div>
+
+      <!--   <div class="form-check mb-3">
+           <label class="form-check-label">
+             <input class="form-check-input" type="checkbox" name="remember"> Malade
+           </label>
+         </div>-->
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

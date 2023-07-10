@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-4zxw7AkOodUrICfufyR+2cVD3HlWeWUApARJH8b8eUr3gnQ6JW+OTi6xqubCf7A5xOU5OaBSrRDEAYXH9tK8Fg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <style>
+    body {
+      margin: 20px;
+      background-color: #eee;
+      font-family: Arial, sans-serif;
+    }
+
+    .invoice {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .invoice-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .invoice-title h4 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      color: #fff;
+    }
+
+    .badge-success {
+      background-color: #28a745;
+    }
+
+    .company-info {
+      margin-bottom: 30px;
+    }
+
+    .company-info h2 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .company-info p {
+      margin: 0;
+    }
+
+    .customer-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .customer-info h5 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .customer-info p {
+      margin: 0;
+    }
+
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 70px;
+    }
+
+    .invoice-table th,
+    .invoice-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .invoice-table th {
+      background-color: #f5f5f5;
+    }
+
+    .invoice-total {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .invoice-total h4 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .invoice-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .invoice-actions a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .invoice-actions a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+<div class="invoice">
+  <div class="company-info">
+    <h2  th:text="${facture.getSf().getConsultation().getEvent().getPatient().getNom() + ' ' +facture.getSf().getConsultation().getEvent().getPatient().getPrenom()}" > </h2>
+    <p   th:text="${facture.getSf().getConsultation().getEvent().getPatient().getCIN()}"></p>
+    <p   th:text="${facture.getSf().getConsultation().getEvent().getPatient().getDateNaissance()}"></p>
+    <p   th:text="${facture.getSf().getConsultation().getEvent().getPatient().getTel()}"></p>
+
+  </div>
+  <div style="text-align: right;" >
+    La date :
+    <SPAN   th:text="${facture.getSf().getConsultation().getEvent().getStartDate()}"></SPAN>
+
+  </div>
+
+
+  <br>
+  <br>
+  <div class="invoice-table">
+    <table>
+      <thead>
+      <tr>
+        <th style="width: 20%;">ID</th>
+        <th style="width: 20%;">Etat</th>
+        <th style="width: 20%;">SF</th>
+        <th style="width: 20%;">Act</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td th:text="${facture.id}"></td>
+        <td th:text="${facture.etat}"></td>
+        <td th:text="${facture.sf != null ? facture.sf.nom : ''}"></td>
+        <td th:text="${facture.sf.getConsultation().getAct().libelle}"></td>
+
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div style="text-align: right;">
+    Total avant reduction: <span th:text="${facture.sf.getConsultation().getAct().getPrix()} + ' Dh'"></span><br>
+    Pourcentege <span th:text="${facture.sf.getConsultation().getPourcentage()}*100 + ' %'"></span><br>
+    Total après reduction: <span th:text="${facture.sf.totalapayer} + ' Dh'"></span><br>
+    Payé: <span th:text="${facture.sf.paye} + ' Dh'"></span><br>
+    Reste: <span th:text="${facture.sf.reste} + ' Dh'"></span><br>
+  </div>
+
+
+
+
+
+</div>
+</body>
+</html>

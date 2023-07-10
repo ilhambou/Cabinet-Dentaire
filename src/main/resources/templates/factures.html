@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html">
+<head>
+  <meta charset="UTF-8">
+  <title>Facture</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="p-3">
+    <div class="card">
+      <div class="card-header">Liste des SF</div>
+      <div class="card-body">
+        <form method="get" th:action="@{/user/index/facture}">
+          <label>Keyword</label>
+          <input type="text" name="keyword" th:value="${keyword}">
+          <button type="submit" class="btn btn-primary">Chercher</button>
+        </form>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Etat</th>
+            <th>Situation financiere</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="sf:${factures}">
+            <td th:text="${sf.id}"></td>
+            <td th:text="${sf.getEtat()}"></td>
+            <td th:text="${sf.getSf().getNom()}"></td>
+
+            <td>
+
+              <a  class="btn btn-primary"
+                  th:href="@{/admin/facture/{id}(id=${sf.id})}">Voir détails</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li th:each="page,status:${pages}">
+            <a th:class="${status.index==currentPage?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
+               th:href="@{/user/index4(page=${status.index}, keyword=${keyword})}"
+               th:text="${status.index}">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

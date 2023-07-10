@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Consultation</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+  <div class="p-3">
+    <form method="POST" th:action="@{/user/editConsultation/{id}(id=${consultation.id})}">
+      <div class="mb-3 mt-3">
+        <label for="description" class="form-label">Description:</label>
+        <input type="text" class="form-control" id="description" placeholder="description" name="description"
+               th:value="${consultation.description}" />
+      </div>
+      <div class="mb-3">
+        <label for="pourcentage" class="form-label">Pourcentage:</label>
+        <input type="number" class="form-control" id="pourcentage" placeholder="pourcentage" step="0.01"
+               name="pourcentage" th:value="${consultation.pourcentage}" />
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="act" class="form-label">Act:</label>
+        <select class="form-control" id="act" name="act" th:value="${consultation.act.id}">
+          <option th:each="act : ${listActs}" th:value="${act.id}" th:text="${act.libelle}"
+                  th:selected="${act.id == consultation.act.id}"></option>
+        </select>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="event" class="form-label">Event:</label>
+        <select class="form-control" id="event" name="event" th:value="${consultation.event.id}">
+          <option value="">Select event</option>
+          <option th:each="event : ${listEvents}" th:value="${event.id}" th:text="${event.summary}"
+                  th:selected="${event.id == consultation.event.id}"></option>
+        </select>
+
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+</body>
+
+</html>

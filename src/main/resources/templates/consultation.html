@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Consultation Consultation</title>
+  <style>
+    .toggle-content {
+      display: none;
+    }
+
+    .toggle-link:target {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="p-3">
+    <div class="card">
+      <div class="card-header">Liste des consultation</div>
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between">
+          <form method="get" th:action="@{/user/index4}">
+            <label>Keyword</label>
+            <input type="text" name="keyword" th:value="${keyword}">
+            <button type="submit" class="btn btn-primary">Chercher</button>
+          </form>
+
+          <a class="btn btn-primary "
+             th:href="@{/user/ordonnances}">Ordonnance</a>
+
+
+        </div>
+        <table class="table">
+          <thead>
+          <tr>
+
+            <th>ID</th><th>dateConsultation</th><th>Description</th><th>pourcentage</th> <th>Event summary</th>
+            <th>Act name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="p:${listConsultations}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.getEvent().getStartDate()}"></td>
+            <td th:text="${p.description}"></td>
+            <td th:text="${p.pourcentage}"></td>
+            <td th:each="event : ${p.getEvent()}">
+              <span th:text="${event.summary}"></span>
+            </td>
+            <!-- Assuming `event` is the associated object and `id` is its attribute -->
+            <td th:text="${p.act.libelle}"></td>
+            <td >
+              <a onclick="return confirm('Etes vous sûre?')" class="btn btn-danger"
+                 th:href="@{/admin/deleteConsultation(id=${p.id}, keyword=${keyword}, page=${currentPage})}">
+                <i class="bi bi-trash"></i>
+              </a>
+            </td>
+            <td >
+              -         <a  class="btn btn-danger"
+                            th:href="@{/admin/editConsultation(id=${p.id})}">
+              <i class="bi bi-pencil"></i>
+            </a>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li th:each="page,status:${pages}">
+            <a
+                    th:class="${status.index==currentPage?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
+                    th:href="@{/user/index4(page=${status.index}, keyword=${keyword})}"
+                    th:text="${status.index}">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function toggleLinks() {
+    var ordonnanceLinks = document.getElementById("ordonnanceLinks");
+    if (ordonnanceLinks.style.display === "none") {
+      ordonnanceLinks.style.display = "block";
+    } else {
+      ordonnanceLinks.style.display = "none";
+    }
+  }
+</script>
+</body>
+</html>

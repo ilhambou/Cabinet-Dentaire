@@ -1,0 +1,11 @@
+.container {
+    padding-top: 50px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+canvas {
+    max-width: 100%;
+}

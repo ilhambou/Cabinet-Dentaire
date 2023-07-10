@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Patients Patients</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="p-3">
+      <form method="post" th:action="@{/admin/editPatient/{id}(id=${patient.id})}">
+        <div class="mb-3 mt-3">
+          <label for="id" class="form-label">ID:</label>
+          <label th:text="${patient.id}"></label>
+          <input type="hidden" class="form-control" id="id" placeholder="ID" name="id" th:value="${patient.id}">
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="nom" class="form-label">Nom:</label>
+          <input type="text" class="form-control" id="nom" placeholder="Nom" name="nom" th:value="${patient.nom}">
+          <span class="text-danger" th:errors="${patient.nom}"></span>
+        </div>
+        <div class="mb-3">
+          <label for="dateNaissance" class="form-label">Date Naissance:</label>
+          <input type="date" class="form-control" id="dateNaissance" placeholder="Date Naissance"
+                 name="dateNaissance" th:value="${patient.dateNaissance}">
+          <span class="text-danger" th:errors="${patient.dateNaissance}"></span>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="prenom" class="form-label">Prenom:</label>
+          <input type="text" class="form-control" id="prenom" placeholder="Prenom"
+                 name="prenom" th:value="${patient.prenom}">
+          <span class="text-danger" th:errors="${patient.prenom}"></span>
+        <!--  <span class="text-danger" th:errors="${patient.score}" th:value="${patient.malade}"></span>-->
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" placeholder="Email"
+                 name="email" th:value="${patient.email}">
+          <span class="text-danger" th:errors="${patient.email}"></span>
+          <!-- <span class="text-danger" th:errors="${patient.score}" th:value="${patient.malade}"></span>-->
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="tel" class="form-label">Telephone:</label>
+          <input type="tel" class="form-control" id="tel" placeholder="Telephone"
+                 name="tel" th:value="${patient.tel}">
+          <span class="text-danger" th:errors="${patient.tel}"></span>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="CIN" class="form-label">CIN:</label>
+          <input type="text" class="form-control" id="CIN" placeholder="CIN"
+                 name="CIN" th:value="${patient.CIN}">
+          <span class="text-danger" th:errors="${patient.CIN}"></span>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="sexe" class="form-label">Sexe:</label>
+          <select class="form-control" id="sexe" name="sexe" th:value="${patient.sexe}">
+            <option th:value="${patient.sexe}" th:text="${patient.sexe}"></option>
+
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+            <span class="text-danger" th:errors="${patient.sexe}"></span>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

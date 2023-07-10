@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Patients Patients</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="p-3">
+    <form method="post" th:action="@{/admin/editAct/{id}(id=${act.id})}">
+      <div class="mb-3 mt-3">
+        <label for="id" class="form-label">ID:</label>
+        <label th:text="${act.id}"></label>
+        <input type="hidden" class="form-control" id="id" placeholder="ID" name="id" th:value="${act.id}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="libelle" class="form-label">libelle:</label>
+        <input type="text" class="form-control" id="libelle" placeholder="libelle" name="libelle"
+               th:value="${act.libelle}">
+      </div>
+      <div class="mb-3">
+        <label for="prix" class="form-label">prix:</label>
+        <input type="number" class="form-control" id="prix" placeholder="prix"
+               step="0.01"
+               name="prix" th:value="${act.prix}">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="description" class="form-label">description:</label>
+        <input type="text" class="form-control" id="Description" placeholder="Description"
+               name="description" th:value="${act.description}">
+        <!-- <span class="text-danger" th:errors="${patient.score}" th:value="${patient.malade}"></span>-->
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

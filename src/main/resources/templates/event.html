@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Event Event</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-3">
+        <form method="POST" th:action="@{/admin/saveEvent}">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+
+            <div class="mb-3">
+                <label for="nom" class="form-label">Event Name:</label>
+                <input type="text" class="form-control" id="nom" placeholder="nom"
+                       name="summary" th:value="${event.getSummary()}">
+            </div>
+            <div class="mb-3">
+                <label for="starttime" class="form-label">Start Time</label>
+                <input type="datetime-local" class="form-control" id="starttime" placeholder="starttime"
+                       name="startDate" th:value="${event.getStartDate()}">
+            </div>
+            <div class="mb-3">
+                <label for="endtime" class="form-label">Start Time</label>
+                <input type="datetime-local" class="form-control" id="endtime" placeholder="endtime"
+                       name="endDateTime" th:value="${event.getEndDateTime()}">
+            </div>
+            <div class="mb-3">
+                <label for="notif" class="form-label">Start Time</label>
+                <input type="text" class="form-control" id="notif" placeholder="notif"
+                       name="notif" th:value="${event.getNotif()}">
+            </div>
+
+
+            <div class="mb-3 mt-3">
+                <label for="etat" class="form-label">Etat:</label>
+                <select class="form-control" id="etat" name="etat" th:value="${event.etat}">
+                    <option value="PENDING">PENDING</option>
+                    <option value="CANCELED">CANCELED</option>
+                    <option value="DONE">DONE
+
+                    </option>
+                </select>
+
+            <div class="mb-3">
+                <label for="patient" class="form-label">Patient:</label>
+                <select class="form-control" id="patient" name="patient" th:value="${event.patient}">
+                    <option value="">Select Patient</option>
+                    <option th:each="patient : ${listPatients}" th:value="${patient.id}" th:text="${patient.nom}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="patient" class="form-label">Act:</label>
+                <select class="form-control" id="actIds" name="actIds" th:value="${event.acts}">
+                    <option value="">Select Acts</option>
+                    <option th:each="patient : ${listActs}" th:value="${patient.id}" th:text="${patient.libelle}"></option>
+                </select>
+
+
+            </div>
+
+
+            <input type="submit" value="Add Event">
+            </div> </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        // Add act row
+        $(".add-act-btn").click(function() {
+            var actRow = '<div class="act-row">' +
+                '<select class="form-control" name="acts">' +
+                '<option value="">Select Act</option>' +
+                '<option th:each="act : ${listActs}" th:value="${act.id}" th:text="${act.libelle}"></option>' +
+                '</select>' +
+                '<button type="button" class="btn btn-primary remove-act-btn">-</button>' +
+                '</div>';
+
+            $("#act-container").append(actRow);
+        });
+
+        // Remove act row
+        $("#act-container").on("click", ".remove-act-btn", function() {
+            $(this).parent().remove();
+        });
+    });
+</script>
+
+</body>
+</html>

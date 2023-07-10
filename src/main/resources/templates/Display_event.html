@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Events Events</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="p-3">
+    <div class="card">
+      <div class="card-header">Liste des rendez-vous</div>
+      <div class="card-body">
+        <form method="get" th:href="@{/admin/index3}">
+          <ul class="nav nav-pills">
+            <li>
+              <label class="form-label">Keyword:</label>
+            </li>
+            <li>
+              <input type="text" class="form-control" name="keyword">
+            </li>
+            <li>
+              <button class="btn btn-info">
+                <i class="bi bi-search"></i>
+              </button>
+            </li>
+          </ul>
+        </form>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th><th>summary</th><th>startDate</th><th>endDateTime</th><th>notif</th><th>Etat</th><th>patient</th><th>Acts</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="p:${listPatients}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.summary}"></td>
+            <td th:text="${p.startDate}"></td>
+            <td th:text="${p.endDateTime}"></td>
+            <td th:text="${p.notif}"></td>
+            <td th:text="${p.etat}"></td>
+
+            <td>
+              <ul>
+                <li th:each="patient : ${p.patient}" th:text="${patient.nom}"></li>
+              </ul>
+            </td>
+
+            <td>
+              <ul>
+                <li th:each="patient : ${p.acts}" th:text="${patient.libelle}"></li>
+              </ul>
+            </td>
+
+
+
+          </tr>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li th:each="page,status:${pages}">
+            <a
+                    th:class="${status.index==currentPage?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
+                    th:href="@{/user/index3(page=${status.index}, keyword=${keyword})}"
+                    th:text="${status.index}">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

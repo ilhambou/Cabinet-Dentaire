@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<meta charset='utf-8' />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha3/css/bootstrap.min.css">
+	<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css' rel='stylesheet' />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+	<style>
+		#calendar a {
+			color: #000000;
+			text-decoration: none;
+		}
+
+		.mr-auto {
+			margin-right: auto;
+		}
+
+		#eventModal {
+			display: none; /* Hide the event modal initially */
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #ffffff;
+			z-index: 9999;
+			padding: 20px;
+		}
+
+		.modal-content {
+			width: 400px;
+			max-width: 80%;
+		}
+
+		.modal-title {
+			font-size: 20px;
+			font-weight: bold;
+			text-align: center;
+		}
+
+		.form-label {
+			font-weight: bold;
+		}
+
+		.form-control {
+			margin-bottom: 10px;
+		}
+
+		.form-check-label {
+			margin-left: 5px;
+		}
+
+		.btn-primary {
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+		.btn-primary:hover {
+			background-color: #0069d9;
+			border-color: #0062cc;
+		}
+
+		.btn-danger {
+			background-color: #dc3545;
+			border-color: #dc3545;
+		}
+
+		.btn-danger:hover {
+			background-color: #c82333;
+			border-color: #bd2130;
+		}
+	</style>
+</head>
+<body>
+<div class="navbar">
+	<a th:href="@{/static}">Logout</a>
+	<a th:href="@{/calendar}">Agenda</a>
+	<a th:href="@{/admin/formEvent}">Add Event</a>
+
+	<a th:href="@{#}" style="float: left;background: #ddd;color: black;font-weight:bold;">Spring Boot Application</a>
+</div>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<div id='calendar'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Event</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeEventForm()"></button>
+			</div>
+			<form th:action="@{/admin/addevent}" method="post">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+				Event name: <input type="text" name="eventName" id="eventName"><br>
+				Start time: <input type="datetime-local" name="startTime" id="eventStartTime"><br>
+				End time: <input type="datetime-local" name="endTime" id="eventEndTime"><br>
+				<input type="submit" value="Add Event">
+			</form>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger mr-auto" style="display: none" id="deleteEventBtn" onclick="deleteEvent()">Delete Event</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src='fullcalendar/dist/index.global.js'></script>
+<script src="https://apis.google.com/js/api.js"></script>
+
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function() {
+		var calendarEl = document.getElementById('calendar');
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			googleCalendarApiKey: 'AIzaSyDmjjsHKSgZw3veAeXaKiy2-gbOgWjpa_E',
+			events: {
+				googleCalendarId: 'asmae.bouchekara@gmail.com'
+			},
+			initialView: 'dayGridMonth',
+			initialDate: new Date(),
+			headerToolbar: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'dayGridMonth,timeGridWeek,timeGridDay'
+			},
+			dateClick: function(info) {
+				console.log(info);
+				initializeDateTimePicker();
+				$('#eventModal').modal('show');
+			},
+			eventClick: function(info) {
+				info.jsEvent.preventDefault();
+
+				var title = info.event.title;
+				var start = info.event.start;
+				var end = info.event.end;
+				var extendedProps = info.event.extendedProps;
+
+				console.log("Event Title: ", title);
+				console.log("Start Time: ", start);
+				console.log("End Time: ", end);
+
+				var patientName = extendedProps.Acts; // Assuming 'Patient' is the custom property that holds the patient name
+				console.log("Patient Name: ", patientName);
+
+				$('#eventModal').modal('show');
+				$('#eventName').val(title);
+				$('#eventStartTime').val(start.toISOString().slice(0, 16));
+				$('#eventEndTime').val(end.toISOString().slice(0, 16));
+			}
+
+		});
+
+		calendar.render();
+
+		function initializeDateTimePicker() {
+			flatpickr("#startDateTime", {
+				enableTime: true,
+				dateFormat: "Y-m-d H:i",
+			});
+
+			flatpickr("#endDateTime", {
+				enableTime: true,
+				dateFormat: "Y-m-d H:i",
+			});
+		}
+	});
+
+	function closeEventForm() {
+		$('#eventModal').modal('hide');
+	}
+
+
+
+	function updateEventInGoogleCalendar(eventId, eventData) {
+		return new Promise((resolve, reject) => {
+			gapi.client.calendar.events
+					.update({
+						calendarId: 'asmae.bouchekara@gmail.com',
+						eventId: eventId,
+						resource: eventData,
+					})
+					.then(() => {
+						resolve();
+					})
+					.catch((error) => {
+						reject(error);
+					});
+		});
+	}
+
+
+	function deleteEvent() {
+		// Handle event deletion logic here
+	}
+</script>
+</body>
+</html>

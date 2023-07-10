@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template.html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Factures Factures</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-3">
+         <form method="post" th:action="@{/user/saveOrdonnance(page=${page}, keyword=${keyword})}">
+         <!-- <form method="post" th:action="@{/admin/saveFacture}" > -->
+            <div>
+                <label>ID</label>
+                <label >th:text="${ordonnance.id}"</label>
+                <input class="form-control" type="hidden" name="id" th:value="${ordonnance.id}">
+            </div>
+            <div>
+                <label >Description</label>
+                <input  class="form-control" type="text" name="Description" th:value="${ordonnance.description}">
+                <span class="text-danger" th:errors="${ordonnance.description}"></span>
+            </div>
+
+            <div>
+                <label for="total">Medicament</label>
+                <input id="total" class="form-control" type="text" name="medicament" th:value="${ordonnance.medicament}">
+                <span  th:errors="${ordonnance.medicament}"></span>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="sf" class="form-label">consultation:</label>
+                <select class="form-control" id="sf" name="sf" th:value="${ordonnance.consultation.description}">
+                    <option value="">Select Consultation</option>
+                    <option th:each="cons : ${listConsultation}" th:value="${cons.id}" th:text="${cons.description}"
+                            th:selected="${cons.id == ordonnance.consultation.id}"></option>
+                </select>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>
