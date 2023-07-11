@@ -39,15 +39,12 @@ public class Event {
     @NotNull
     private StatusRDV Etat;
     @NotNull
+
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(updatable = false)
 
     private Patient patient;
 
-
-   /* @ManyToMany(mappedBy = "events", cascade = CascadeType.ALL )
-  //@JoinTable(name = "Acts_Events")
-    private List<Act> acts=new ArrayList<>();*/
     @ManyToMany
     @JoinTable(
             name = "event_act",

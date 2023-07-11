@@ -229,8 +229,6 @@ public class MainController {
                            @RequestParam("summary") String eventName,
                            Model model) {
 
-
-
         try {
 
 
